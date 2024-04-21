@@ -24,6 +24,7 @@
     "hardhat": "^2.22.3"
   },
   "dependencies": {
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
     "solady": "^0.0.192"
   }
 }
