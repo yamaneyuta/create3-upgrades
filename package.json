@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/yamaneyuta-examples/deploy-create3-contract/issues"
   },
-  "homepage": "https://github.com/yamaneyuta-examples/deploy-create3-contract#readme"
+  "homepage": "https://github.com/yamaneyuta-examples/deploy-create3-contract#readme",
+  "devDependencies": {
+    "hardhat": "^2.22.3"
+  }
 }
