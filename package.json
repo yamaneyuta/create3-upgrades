@@ -1,0 +1,23 @@
+{
+  "name": "deploy-create3-contract",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yamaneyuta-examples/deploy-create3-contract.git"
+  },
+  "keywords": [
+    "solidity",
+    "create3"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yamaneyuta-examples/deploy-create3-contract/issues"
+  },
+  "homepage": "https://github.com/yamaneyuta-examples/deploy-create3-contract#readme"
+}
