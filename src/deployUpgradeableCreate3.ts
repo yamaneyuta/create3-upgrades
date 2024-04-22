@@ -3,7 +3,10 @@ import { Create3 } from "../typechain-types";
 
 import Create3Meta from "../artifacts/contracts/Create3.sol/Create3.json";
 
-export const deployUpgradableCreate3 = async ()=> {
+/**
+ * アップグレード可能なCreate3コントラクトをデプロイします。
+ */
+export const deployUpgradeableCreate3 = async ()=> {
     // 事前チェック
     await verifyProvider();
 
