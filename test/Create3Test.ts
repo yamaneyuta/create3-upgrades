@@ -53,6 +53,21 @@ describe("Create3", ()=>{
         expect(deployer.address).equals(owner);
     });
 
+    // Initializeイベントの値は1であることを確認
+    it("[61A53478] Check create3 initialize event", async ()=>{
+        const { create3 } = await loadFixture(deployCreate3);
+
+        const events = create3.filters["Initialized"]();
+        const logs = await create3.queryFilter(events);
+
+        // Initializeイベントは1回だけ発生
+        expect(1).equals(logs.length);
+
+        const log = logs[0];
+        const version = log.args[0];   // Initializedイベントの引数
+
+        expect(1).equals(version);
+    });
 });
 
 
