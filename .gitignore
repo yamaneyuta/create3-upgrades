@@ -5,6 +5,10 @@ dist/
 .env
 *.bak
 
+# OpenZeppelin
+.openzeppelin/dev-*.json
+.openzeppelin/.session
+
 # Hardhat files
 /cache
 /artifacts
