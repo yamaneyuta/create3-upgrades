@@ -11,6 +11,7 @@ contract Create3 is Initializable, OwnableUpgradeable {
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         // 実装コントラクトの初期化を防ぐ
+        // https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable#initializing_the_implementation_contract
         _disableInitializers();
     }
     
