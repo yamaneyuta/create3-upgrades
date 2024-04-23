@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "hardhat compile",
-    "clean": "hardhat clean",
+    "build:js": "tsc -p tsconfig.build.json",
+    "build:sol": "hardhat compile",
+    "clean:js": "rm -rf dist",
+    "clean:sol": "hardhat clean",
     "coverage": "hardhat coverage",
     "lint": "hardhat check",
     "test": "hardhat test"
