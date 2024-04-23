@@ -1,7 +1,12 @@
 .DS_Store
 Thumbs.db
 node_modules/
-dist/
+# dist/
+/dist/typechain-types/@openzeppelin
+/dist/typechain-types/factories
+/dist/typechain-types/solady
+/dist/typechain-types/contracts/mocks
+
 .env
 *.bak
 
@@ -23,3 +28,4 @@ dist/
 
 # Hardhat Ignition default folder for deployments against a local node
 ignition/deployments/chain-31337
+

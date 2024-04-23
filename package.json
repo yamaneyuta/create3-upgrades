@@ -21,7 +21,6 @@
     "clean:sol": "hardhat clean",
     "coverage": "hardhat coverage",
     "lint": "hardhat check",
-    "prepare": "npm run build",
     "test": "hardhat test"
   },
   "repository": {
