@@ -13,7 +13,9 @@ type Options = {
  * Create3コントラクトのdeploy関数を使ってコントラクトをデプロイします。
  * 
  * ※デプロイするコントラクトのinitialize関数内で_msgSender()やmsg.senderを呼び出した場合、そのアドレスはCreate3コントラクトのアドレスになります。
- * _msgSender()やmsg.senderの代わりにtx.originを使うことで回避できます(非推奨)が、コンストラクタの引数にアドレスを渡すようにしてください(推奨)。
+ *   回避方法:
+ *   - initialize関数の引数にアドレスを渡す(推奨)
+ *   - `tx.origin`を使用する(非推奨)
  */
 export const deployProxyWithCreate3 = async (create3: Create3Upgradeable, salt: string, logicFactory: ContractFactory, args: unknown[], opt?: Options) => {
     // TODO: 事前チェック
