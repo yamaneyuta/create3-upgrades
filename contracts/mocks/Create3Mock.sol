@@ -7,7 +7,7 @@ import "solady/src/utils/CREATE3.sol";
 
 import { Create3Upgradeable } from "../Create3Upgradeable.sol";
 
-contract Create3 is Initializable, OwnableUpgradeable, Create3Upgradeable {
+contract Create3Mock is Initializable, OwnableUpgradeable, Create3Upgradeable {
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {

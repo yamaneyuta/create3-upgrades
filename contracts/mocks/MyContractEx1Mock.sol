@@ -6,7 +6,7 @@ import { TestContract } from "./TestContract.sol";
 /**
  * コントラクトを継承した、アップグレード用のコントラクト 
  */
-contract TestContractEx1 is TestContract {
+contract MyContractEx1Mock is TestContract {
 
     uint256 public fuga;
 
