@@ -1,7 +1,8 @@
 {
-  "name": "deploy-create3-contract",
+  "name": "@yamaneyuta/deploy-create3-contract",
   "version": "1.0.0",
   "description": "",
+  "main": "./dist/src/index.js",
   "exports":{
     ".": {
       "require": "./dist/src/index.js",
@@ -11,6 +12,8 @@
   },
   "files": [
     "./dist/**/*",
+    "!**/dist/hardhat.config.*",
+    "!**/dist/typechain-types",
     "./contracts/**/*.sol",
     "!**/mocks/**"
   ],
