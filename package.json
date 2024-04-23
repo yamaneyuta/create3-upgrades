@@ -2,7 +2,16 @@
   "name": "deploy-create3-contract",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "exports":{
+    ".": {
+      "require": "./dist/src/index.js",
+      "import": "./dist/src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "./contracts/**/*.sol"
+  ],
   "scripts": {
     "build": "npm run build:sol && npm run build:js",
     "build:js": "tsc -p tsconfig.build.json",
