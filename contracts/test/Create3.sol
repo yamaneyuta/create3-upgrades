@@ -5,8 +5,9 @@ import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/I
 import { OwnableUpgradeable } from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "solady/src/utils/CREATE3.sol";
 
-contract Create3 is Initializable, OwnableUpgradeable {
-    event Deployed(address deployed, bytes32 salt);
+import { Create3Upgradeable } from "../Create3Upgradeable.sol";
+
+contract Create3 is Initializable, OwnableUpgradeable, Create3Upgradeable {
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -20,16 +21,15 @@ contract Create3 is Initializable, OwnableUpgradeable {
     }
 
 
-    function deploy(bytes32 salt, bytes memory creationCode, uint256 value) external {
-        address deployed = CREATE3.deploy(salt, creationCode, value);
-        emit Deployed(deployed, salt);
-    }
+    // function deploy(bytes32 salt, bytes memory creationCode, uint256 value) external {
+    //     _deploy(salt, creationCode, value);
+    // }
 
-    function getDeployed(bytes32 salt) external view returns (address deployed) {
-        deployed = CREATE3.getDeployed(salt);
-    }
-    function getDeployed(bytes32 salt, address deployer) external pure returns (address deployed) {
-        deployed = CREATE3.getDeployed(salt, deployer);
-    }
+    // function getDeployed(bytes32 salt) external view returns (address deployed) {
+    //     deployed = _getDeployed(salt);
+    // }
+    // function getDeployed(bytes32 salt, address deployer) external pure returns (address deployed) {
+    //     deployed = _getDeployed(salt, deployer);
+    // }
 }
 
