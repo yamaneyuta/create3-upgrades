@@ -10,7 +10,9 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "./contracts/**/*.sol"
+    "./dist/**/*",
+    "./contracts/**/*.sol",
+    "!**/mocks/**"
   ],
   "scripts": {
     "build": "npm run build:sol && npm run build:js",
