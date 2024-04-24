@@ -1,5 +1,5 @@
 {
-  "name": "@yamaneyuta/deploy-create3-contract",
+  "name": "@yamaneyuta/create3-upgrades",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/src/index.js",
@@ -12,11 +12,14 @@
   },
   "files": [
     "./dist/src/**/*",
+    "./dist/typechain-types/contracts/Create3Upgradeable.*",
+    "./dist/typechain-types/factories/contracts/Create3Upgradeable__factory.*",
     "./contracts/**/*.sol",
     "!**/mocks/**"
   ],
   "scripts": {
     "build": "npm run build:sol && npm run build:js",
+    "prebuild:js": "npm run clean:js",
     "build:js": "tsc -p tsconfig.build.json",
     "build:sol": "hardhat compile",
     "clean": "npm run clean:js && npm run clean:sol",
@@ -24,6 +27,7 @@
     "clean:sol": "hardhat clean",
     "coverage": "hardhat coverage",
     "lint": "hardhat check",
+    "prepare": "npm run build",
     "test": "hardhat test"
   },
   "keywords": [
@@ -31,11 +35,17 @@
     "create3"
   ],
   "license": "MIT",
+  "dependencies": {
+  },
   "peerDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@openzeppelin/contracts-upgradeable": "^5.0.2",
-    "@openzeppelin/hardhat-upgrades": "^3.0.5",
+    "@openzeppelin/hardhat-upgrades": "^3.1.0",
+    "@openzeppelin/upgrades-core": "^1.32.6",
+    "ethers": "^6.12.0",
     "hardhat": "^2.22.3",
     "solady": "^0.0.192"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0"
   }
 }
