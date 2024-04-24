@@ -1,13 +1,12 @@
 import hre, { ethers } from "hardhat";
 import { ContractFactory, Contract } from "ethers";
-import { deployProxyImpl, getInitializerData } from "@openzeppelin/hardhat-upgrades/dist/utils";
+import { deployProxyImpl, getInitializerData, getTransparentUpgradeableProxyFactory } from "@openzeppelin/hardhat-upgrades/dist/utils";
 import { Manifest } from "@openzeppelin/upgrades-core/dist/manifest"
-import { Create3Upgradeable } from "../typechain-types"
-import { getTransparentUpgradeableProxyV5Factory } from "./getTransparentUpgradeableProxyV5Factory";
+import { Create3Upgradeable } from "../../typechain-types/contracts/Create3Upgradeable"
+import { Create3Upgradeable__factory } from "../../typechain-types/factories/contracts/Create3Upgradeable__factory";
+import { Options } from "./Options";
+import { preDeployProxy } from "./preDeployProxy";
 
-type Options = {
-    initializer?: string | false | undefined;
-};
 
 /**
  * Create3コントラクトのdeploy関数を使ってコントラクトをデプロイします。
@@ -17,20 +16,26 @@ type Options = {
  *   - initialize関数の引数にアドレスを渡す(推奨)
  *   - `tx.origin`を使用する(非推奨)
  */
-export const deployProxyWithCreate3 = async (create3: Create3Upgradeable, salt: string, logicFactory: ContractFactory, args: unknown[], opt?: Options) => {
+export const deployProxy = async (create3: string, salt: string, logicFactory: ContractFactory, args: unknown[], opt?: Options) => {
+    const deployer = await getDeployer();
+
+    preDeployProxy(create3, salt, logicFactory, args, opt);
+
     // TODO: 事前チェック
     // - argsの数
     // - TransparentUpgradeableProxyのコンストラクタの引数の数及び型
 
-    logicFactory.interface.fragments
     
 
     // 実装コントラクトをデプロイ
     const { contract: logicContract } = await deployLogicContract(logicFactory);
 
+    // 指定されたCreate3コントラクトアドレスに接続するオブジェクトを生成
+    const create3Contract = new ethers.Contract(create3, Create3Upgradeable__factory.abi,  deployer) as unknown as Create3Upgradeable;
+
     // Create3コントラクトを使ってTransparentUpgradeableProxyをデプロイ
     // ※TransparentUpgradeableProxyデプロイ時に実装コントラクトへの参照及びinitialize関数呼び出しが実行される
-    const contract = await deployTransparentUpgradeableProxy(create3, salt, logicContract, logicFactory, args, opt);
+    const contract = await deployTransparentUpgradeableProxy(create3Contract, salt, logicContract, logicFactory, args, opt);
     
     return contract;
 };
@@ -73,7 +78,7 @@ const deployTransparentUpgradeableProxy = async(create3: Create3Upgradeable, sal
     const proxyArgs = [logicAddress, initialOwner, initializeData];
 
     // Create3でデプロイするためのバイトコードを生成
-    const proxyFactory = await getTransparentUpgradeableProxyV5Factory(hre, deployer);
+    const proxyFactory = await getTransparentUpgradeableProxyFactory(hre, deployer);
     const creationCode = ethers.solidityPacked(
         ["bytes", "bytes"],
         [
@@ -115,7 +120,7 @@ const deployTransparentUpgradeableProxy = async(create3: Create3Upgradeable, sal
 };
 
 const getProxyConstructorParamTypes = async () => {
-    const proxyFactory = await getTransparentUpgradeableProxyV5Factory(hre, await getDeployer());
+    const proxyFactory = await getTransparentUpgradeableProxyFactory(hre, await getDeployer());
     const pramTypes = proxyFactory.interface.fragments.filter(f=>f.type === "constructor")[0].inputs.map(i=>i.type);
 
     if(pramTypes === undefined) {
