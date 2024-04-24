@@ -4,7 +4,7 @@ import { deployProxyImpl, getInitializerData, getTransparentUpgradeableProxyFact
 import { Manifest } from "@openzeppelin/upgrades-core/dist/manifest"
 import { Create3Upgradeable } from "../../typechain-types/contracts/Create3Upgradeable"
 import { Create3Upgradeable__factory } from "../../typechain-types/factories/contracts/Create3Upgradeable__factory";
-import { Options } from "./Options";
+import { Options } from "../types/Options";
 import { preDeployProxy } from "./preDeployProxy";
 
 

@@ -1,6 +1,6 @@
 import hre from "hardhat";
 import { ContractFactory } from "ethers";
-import { Options } from "./Options";
+import { Options } from "../types/Options";
 import { getTransparentUpgradeableProxyFactory } from "@openzeppelin/hardhat-upgrades/dist/utils";
 
 /**
