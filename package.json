@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "./dist/src/index.js",
-  "exports":{
+  "exports": {
     ".": {
       "require": "./dist/src/index.js",
       "import": "./dist/src/index.js"
@@ -26,24 +26,15 @@
     "lint": "hardhat check",
     "test": "hardhat test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yamaneyuta-examples/deploy-create3-contract.git"
-  },
   "keywords": [
     "solidity",
     "create3"
   ],
-  "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/yamaneyuta-examples/deploy-create3-contract/issues"
-  },
-  "homepage": "https://github.com/yamaneyuta-examples/deploy-create3-contract#readme",
   "peerDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "@openzeppelin/hardhat-upgrades": "^3.0.5",
     "@openzeppelin/contracts-upgradeable": "^5.0.2",
+    "@openzeppelin/hardhat-upgrades": "^3.0.5",
     "hardhat": "^2.22.3",
     "solady": "^0.0.192"
   }
