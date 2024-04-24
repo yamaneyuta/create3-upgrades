@@ -36,8 +36,10 @@ const initContracts = async() => {
         INIT_BAR_VAL
     ] as unknown[];
 
+    const create3Address = await create3.getAddress();
+
     // デプロイ
-    const myContract = await create3Upgrades.deployProxy(create3, SALT, myContractFactory, myContractArgs) as unknown as MyContractMock;
+    const myContract = await create3Upgrades.deployProxy(create3Address, SALT, myContractFactory, myContractArgs) as unknown as MyContractMock;
     // デプロイ完了まで待機
     await myContract.waitForDeployment();
 
