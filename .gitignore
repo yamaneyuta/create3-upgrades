@@ -1,11 +1,8 @@
 .DS_Store
 Thumbs.db
 node_modules/
-# dist/
-/dist/typechain-types/@openzeppelin
-/dist/typechain-types/factories
-/dist/typechain-types/solady
-/dist/typechain-types/contracts/mocks
+/dist/
+!/dist/src
 
 .env
 *.bak
