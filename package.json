@@ -35,8 +35,6 @@
     "create3"
   ],
   "license": "MIT",
-  "dependencies": {
-  },
   "peerDependencies": {
     "@openzeppelin/contracts-upgradeable": "^5.0.2",
     "@openzeppelin/hardhat-upgrades": "^3.1.0",
@@ -46,6 +44,7 @@
     "solady": "^0.0.192"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0"
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "solhint": "^4.5.4"
   }
 }
