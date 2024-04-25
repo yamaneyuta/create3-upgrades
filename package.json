@@ -26,7 +26,8 @@
     "clean:js": "rm -rf dist",
     "clean:sol": "hardhat clean",
     "coverage": "hardhat coverage",
-    "lint": "hardhat check",
+    "lint": "npm run lint:hardhat && npm run lint:solhint",
+    "lint:hardhat": "hardhat check",
     "lint:solhint": "solhint 'contracts/**/*.sol'",
     "prepare": "npm run build",
     "test": "hardhat test"
