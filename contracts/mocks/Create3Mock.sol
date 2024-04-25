@@ -3,8 +3,6 @@ pragma solidity ^0.8.0;
 
 import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import { OwnableUpgradeable } from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "solady/src/utils/CREATE3.sol";
-
 import { Create3Upgradeable } from "../Create3Upgradeable.sol";
 
 contract Create3Mock is Initializable, OwnableUpgradeable, Create3Upgradeable {
@@ -12,6 +10,7 @@ contract Create3Mock is Initializable, OwnableUpgradeable, Create3Upgradeable {
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         // 実装コントラクトの初期化を防ぐ
+        // solhint-disable-next-line max-line-length
         // https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable#initializing_the_implementation_contract
         _disableInitializers();
     }
