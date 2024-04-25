@@ -4,6 +4,7 @@ import { Create3Mock, MyContractEx1Mock, MyContractMock } from "../typechain-typ
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 
 import { create3Upgrades } from "../src/index";
+import { getProxyAdmin } from "./getProxyAdmin";
 
 // `MyContractMock`をデプロイするときに用いるsalt。
 // ※ `MyContractMock`という文字列である必要はない。
@@ -108,6 +109,58 @@ describe("[E28AD783] Deploy with Create3", ()=>{
         const myContractEx1Address = await myContractEx1.getAddress();
 
         expect(expectAddress).equal(myContractEx1Address);
+    });
+
+    
+    // デプロイされたMyContractを別のアカウントがアップグレードしようとしても失敗することを確認
+    it("[8BEF78F8] Upgrade MyContract by another account", async()=>{
+        const { myContract } = await loadFixture(initContracts);
+
+        const [ deployer, account1 ] = await ethers.getSigners();
+
+        // account1でMyContractEx1Mockをデプロイ
+        const myContractEx1Factory = await ethers.getContractFactory("MyContractEx1Mock", account1);
+
+        let error: Error | null = null;
+        try {
+            const myContractEx1 = await create3Upgrades.upgradeProxy(await myContract.getAddress(), myContractEx1Factory, {
+                call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] }
+            }) as unknown as MyContractEx1Mock;
+        }
+        catch(err: any) {
+            error = err;
+        }
+
+        expect(error).not.null;
+    });
+
+
+    // デプロイされたMyContractを別アカウントがアップグレードしようとした場合、
+    // ProxyAdminの所有者をあらかじめ変更しておくことでアップグレードが成功することを確認
+    it("[7EBB2B6D] Upgrade MyContract by another account", async()=>{
+        const { myContract } = await loadFixture(initContracts);
+
+        const [ deployer, account1 ] = await ethers.getSigners();
+
+        // ProxyAdminの所有者を変更
+        const admin = await getProxyAdmin(await myContract.getAddress(), deployer);
+        await admin.transferOwnership(await account1.getAddress());
+
+        // account1でMyContractEx1Mockをデプロイ
+        const myContractEx1Factory = await ethers.getContractFactory("MyContractEx1Mock", account1);
+
+        const myContractEx1 = await create3Upgrades.upgradeProxy(await myContract.getAddress(), myContractEx1Factory, {
+            call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] }
+        }) as unknown as MyContractEx1Mock;
+
+        const fooVal = await myContractEx1.foo();
+        expect(INIT_FOO_VAL).equal(fooVal);
+
+        const barVal = await myContractEx1.bar();
+        expect(INIT_BAR_VAL).equal(barVal);
+
+        const bazVal = await myContractEx1.baz();
+        expect(INIT_BAZ_VAL).equal(bazVal);
     });
 
 });
