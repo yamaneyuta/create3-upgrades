@@ -23,7 +23,7 @@
     "build:js": "tsc -p tsconfig.build.json",
     "build:sol": "hardhat compile",
     "clean": "npm run clean:js && npm run clean:sol",
-    "clean:js": "rm -rf dist",
+    "clean:js": "rm -rf dist/*",
     "clean:sol": "hardhat clean",
     "coverage": "hardhat coverage",
     "format": "npm run format:js",
