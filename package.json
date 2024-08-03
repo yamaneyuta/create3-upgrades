@@ -31,7 +31,7 @@
     "lint": "npm run lint:sol && npm run lint:js",
     "lint:js": "eslint src",
     "lint:sol": "hardhat check && solhint 'contracts/**/*.sol'",
-    "prepare": "npm run build",
+    "prepare": "yes no | npm run build",
     "test": "hardhat test"
   },
   "keywords": [
