@@ -32,7 +32,9 @@
     "lint:js": "eslint src",
     "lint:sol": "hardhat check && solhint 'contracts/**/*.sol'",
     "prepare": "yes no | npm run build",
-    "test": "hardhat test"
+    "release": "npx release-it",
+    "test": "hardhat test",
+    "update:package": "npx npm-check-updates -u --target minor"
   },
   "keywords": [
     "solidity",
