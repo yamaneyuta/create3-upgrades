@@ -23,7 +23,7 @@ export const deployProxy = async (
     create3: string,
     salt: string,
     logicFactory: ContractFactory,
-    args: unknown[],
+    args?: unknown[],
     opt?: Options,
 ) => {
     const deployer = await getDeployer();
@@ -88,7 +88,7 @@ const deployTransparentUpgradeableProxy = async (
     salt: string,
     logic: Contract,
     logicFactory: ContractFactory,
-    args: unknown[],
+    args?: unknown[],
     opt?: Options,
 ) => {
     const deployer = await getDeployer();
@@ -96,7 +96,7 @@ const deployTransparentUpgradeableProxy = async (
     // initialize関数の引数をデータに変換
     const initializeData = getInitializerData(
         logicFactory.interface,
-        args,
+        args ?? [],
         opt?.initializer,
     );
 

@@ -10,7 +10,7 @@ export const preDeployProxy = async (
     create3: string,
     salt: string,
     logicFactory: ContractFactory,
-    args: unknown[],
+    args?: unknown[],
     opt?: Options,
 ) => {
     // 与えられたsaltのフォーマットをチェック
@@ -46,15 +46,15 @@ const verifySaltFormat = (salt: string) => {
  */
 const verifyInitializeArgs = (
     logicFactory: ContractFactory,
-    args: unknown[],
+    args?: unknown[],
     opt?: Options,
 ) => {
     let initializer = opt?.initializer;
 
     // initializerがfalseの場合はinitialize関数を呼び出さない
     if (initializer === false) {
-        // initialize関数を呼び出さない時、argsは空配列を期待している
-        if (args.length !== 0) {
+        // initialize関数を呼び出さない時、argsは空配列またはundefinedを期待している
+        if (args !== undefined && args.length !== 0) {
             throw new Error(
                 `[0F9F3281] Invalid args. args must be empty array when initializer is false. expected: [], actual: ${args}`,
             );
@@ -75,7 +75,7 @@ const verifyInitializeArgs = (
         );
     }
 
-    if (fragment.inputs.length !== args.length) {
+    if (args && fragment.inputs.length !== args.length) {
         // 引数の数が一致しない場合はエラー
         throw new Error(
             `[20AFEDBC] Invalid args. The number of arguments does not match the number of inputs of the initializer. expected: ${fragment.inputs.length}, actual: ${args.length}`,
