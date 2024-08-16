@@ -3,8 +3,8 @@ import { expect } from "chai";
 import { Create3Mock, MyContractEx1Mock, MyContractMock } from "../typechain-types";
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 
-import { create3Upgrades } from "../src/index";
-import { getProxyAdmin } from "./getProxyAdmin";
+import { create3Upgrades } from "./index";
+import { getProxyAdmin } from "../test/getProxyAdmin";
 
 // `MyContractMock`をデプロイするときに用いるsalt。
 // ※ `MyContractMock`という文字列である必要はない。
