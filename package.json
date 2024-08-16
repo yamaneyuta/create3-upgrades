@@ -16,6 +16,7 @@
     "./dist/typechain-types/contracts/Create3Upgradeable.*",
     "./dist/typechain-types/factories/contracts/Create3Upgradeable__factory.*",
     "./contracts/**/*.sol",
+    "!**/*.test.ts",
     "!**/mocks/**"
   ],
   "scripts": {
