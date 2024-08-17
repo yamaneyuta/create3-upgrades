@@ -5,7 +5,7 @@ import { Privatenet } from "./Privatenet";
 describe("[73D05126] Privatenet", () => {
     it("[0C8461CA] isHardhatNode", async () => {
         // テスト時は必ずHardhatノードに接続している
-        expect(Privatenet.isHardhatNode()).to.be.true;
+        expect(Privatenet.isHardhatNode()).to.be.equal(true);
     });
 
     /**

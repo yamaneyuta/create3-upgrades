@@ -45,19 +45,19 @@
   "license": "MIT",
   "peerDependencies": {
     "@openzeppelin/contracts-upgradeable": "^5.0.2",
-    "@openzeppelin/hardhat-upgrades": "^3.1.0",
-    "@openzeppelin/upgrades-core": "^1.32.6",
-    "ethers": "^6.12.0",
-    "hardhat": "^2.22.3",
-    "solady": "^0.0.192"
+    "@openzeppelin/hardhat-upgrades": "^3.2.1",
+    "@openzeppelin/upgrades-core": "^1.35.1",
+    "ethers": "^6.13.2",
+    "hardhat": "^2.22.8",
+    "solady": "^0.0.233"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
+    "@typescript-eslint/parser": "^8.1.0",
+    "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.3",
-    "solhint": "^4.5.4"
+    "solhint": "^5.0.3"
   }
 }
