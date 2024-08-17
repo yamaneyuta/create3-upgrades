@@ -11,6 +11,7 @@ import { Create3Upgradeable__factory } from "../../typechain-types/factories/con
 import { Options } from "../types/Options";
 import { preDeployProxy } from "./preDeployProxy";
 import { md5 } from "../../dist/test/lib/md5";
+import { ProxyKind } from "../lib/ProxyKind";
 
 /**
  * Create3コントラクトのdeploy関数を使ってコントラクトをデプロイします。
@@ -27,6 +28,12 @@ export const deployProxy = async (
     args?: unknown[],
     opt?: Options,
 ) => {
+    const kind = await ProxyKind.get(logicFactory);
+    if (kind !== "transparent") {
+        // UUPSには現在未対応。
+        throw new Error(`[B9A7073A] Unsupported ProxyKind (expected: transparent, actual: ${kind})`);
+    }
+
     const deployer = await getDeployer();
 
     preDeployProxy(create3, salt, logicFactory, args, opt);
