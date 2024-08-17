@@ -9,7 +9,7 @@ describe("[2E4BF335] Deploy with Create3", () => {
     const deployFixture = async () => {
         await Privatenet.reset(); // ネットワークのリセット(nonceを0に戻すため)
 
-        const factory = await ethers.getContractFactory("Create3Mock");
+        const factory = await ethers.getContractFactory("Create3Test");
         const create3 = await upgrades.deployProxy(factory, []);
 
         return { create3 };
@@ -58,16 +58,16 @@ describe("[2E4BF335] Deploy with Create3", () => {
         const implAddress = ethers.getCreateAddress({
             from: deployerAddress,
             nonce: 0,
-        }); // 実装コントラクト(Create3Mock)のアドレス
+        }); // 実装コントラクト(Create3Test)のアドレス
         const proxyAddress = ethers.getCreateAddress({
             from: deployerAddress,
             nonce: 1,
         }); // Proxyコントラクトのアドレス
 
-        // Create3Mockのバイトコードチェックのため、Create3コントラクト自体はテストしていないことに注意。
+        // Create3Testのバイトコードチェックのため、Create3コントラクト自体はテストしていないことに注意。
         const impleCode = await provider.getCode(implAddress);
-        expect(impleCode.length).to.be.equal(5796);
-        expect(md5(impleCode)).to.be.equal("a220ec80c69f17d685f34671c95dd52e");
+        expect(impleCode.length).to.be.equal(3752);
+        expect(md5(impleCode)).to.be.equal("c3e34db0732f8f0e01b82588511644f3");
 
         // proxyCodeはopenzeppelinのProxyコントラクトなので、Create3とは直接関係ないことに注意。
         const proxyCode = await provider.getCode(proxyAddress);
