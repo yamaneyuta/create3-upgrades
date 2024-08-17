@@ -127,7 +127,7 @@ describe("[E28AD783] Deploy with Create3", () => {
             error = err;
         }
 
-        expect(error).to.be.equal(null);
+        expect(error).not.equal(null);
     });
 
     // デプロイされたMyContractを別アカウントがアップグレードしようとした場合、
