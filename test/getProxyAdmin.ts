@@ -49,7 +49,7 @@ const getProxyAdminAddress = async (proxyAddress: string) => {
     }
 
     // イベントから、新しいAdmin(＝ProxyAdmin)のアドレスを取得
-    const [previousAdmin, newAdmin] = (events[0] as EventLog).args;
+    const [, newAdmin] = (events[0] as EventLog).args;
 
     return newAdmin;
 };

@@ -49,7 +49,7 @@ describe("[2E4BF335] Deploy with Create3", () => {
      * ライブラリのバージョンアップ等でバイトコードが変更された時にはこのテストが失敗するので、影響がないかどうかを確認してください。
      */
     it("[CC9F505F] deployed code", async () => {
-        const { create3 } = await loadFixture(deployFixture);
+        await loadFixture(deployFixture);
 
         const { deployer } = await Privatenet.signers();
         const provider = await Privatenet.provider();

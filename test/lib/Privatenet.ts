@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { ethers, network } from "hardhat";
-import { Signer, JsonRpcProvider } from "ethers";
+import { Signer } from "ethers";
 
 export class Privatenet {
     /**

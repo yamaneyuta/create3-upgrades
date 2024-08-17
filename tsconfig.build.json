@@ -5,6 +5,6 @@
         "rootDir": ".",
         "outDir": "./dist/",
     },
-    "exclude": [ "test/**/*", "dist/**/*" ]
+    "exclude": [ "dist/**/*" ]
   }
   

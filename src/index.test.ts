@@ -52,7 +52,7 @@ const initContracts = async () => {
 
 // MyContractMockをMyContractEx1Mockにアップグレード
 const upgradeToMyContractEx1 = async () => {
-    const { deployer, create3, myContract } = await initContracts();
+    const { create3, myContract } = await initContracts();
 
     const myContractEx1Factory = await ethers.getContractFactory("MyContractEx1Mock");
 
@@ -113,21 +113,21 @@ describe("[E28AD783] Deploy with Create3", () => {
     it("[8BEF78F8] Upgrade MyContract by another account", async () => {
         const { myContract } = await loadFixture(initContracts);
 
-        const [deployer, account1] = await ethers.getSigners();
+        const [, account1] = await ethers.getSigners();
 
         // account1でMyContractEx1Mockをデプロイ
         const myContractEx1Factory = await ethers.getContractFactory("MyContractEx1Mock", account1);
 
-        let error: Error | null = null;
+        let error: unknown | null = null;
         try {
-            const myContractEx1 = (await create3Upgrades.upgradeProxy(
+            await create3Upgrades.upgradeProxy(
                 await myContract.getAddress(),
                 myContractEx1Factory,
                 {
                     call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] },
                 },
-            )) as unknown as MyContractEx1Mock;
-        } catch (err: any) {
+            );
+        } catch (err) {
             error = err;
         }
 
