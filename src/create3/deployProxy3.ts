@@ -10,6 +10,7 @@ import { Create3Upgradeable } from "../../typechain-types/contracts/Create3Upgra
 import { Create3Upgradeable__factory } from "../../typechain-types/factories/contracts/Create3Upgradeable__factory";
 import { Options } from "../types/Options";
 import { preDeployProxy } from "./preDeployProxy";
+import { md5 } from "../../dist/test/lib/md5";
 
 /**
  * Create3コントラクトのdeploy関数を使ってコントラクトをデプロイします。
@@ -107,6 +108,12 @@ const deployTransparentUpgradeableProxy = async (
         ["bytes", "bytes"],
         [proxyFactory.bytecode, ethers.AbiCoder.defaultAbiCoder().encode(pramTypes, proxyArgs)],
     );
+    if (md5(proxyFactory.bytecode) !== "d26eb8ac78ecbb5e001460a6574b7d3a") {
+        // ここを通る時は`TransparentUpgradeableProxy`のバイトコードが変更されているため、openzeppelinのコードを確認してください。
+        // 今後の運用に影響する可能性があります。
+        console.error("proxyFactory.bytecode hash: ", md5(proxyFactory.bytecode));
+        throw new Error("[79872CEC] Mismatch bytecode");
+    }
 
     const txResponse = await create3.deploy(salt, creationCode, 0);
     const txReceipt = await txResponse.wait();
