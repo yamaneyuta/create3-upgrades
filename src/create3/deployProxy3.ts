@@ -70,11 +70,7 @@ const deployLogicContract = async (logicFactory: ContractFactory) => {
     const { impl, txResponse } = await deployProxyImpl(hre, logicFactory, {});
 
     return {
-        contract: new ethers.Contract(
-            impl,
-            logicFactory.interface,
-            await getDeployer(),
-        ),
+        contract: new ethers.Contract(impl, logicFactory.interface, await getDeployer()),
         txResponse,
     };
 };
@@ -94,11 +90,7 @@ const deployTransparentUpgradeableProxy = async (
     const deployer = await getDeployer();
 
     // initialize関数の引数をデータに変換
-    const initializeData = getInitializerData(
-        logicFactory.interface,
-        args ?? [],
-        opt?.initializer,
-    );
+    const initializeData = getInitializerData(logicFactory.interface, args ?? [], opt?.initializer);
 
     // TransparentUpgradeableProxyのコンストラクタの引数の型を取得
     // TransparentUpgradeableProxy(v5)のコンストラクタ ⇒ (address _logic, address initialOwner, bytes memory _data)
@@ -110,42 +102,32 @@ const deployTransparentUpgradeableProxy = async (
     const proxyArgs = [logicAddress, initialOwner, initializeData];
 
     // Create3でデプロイするためのバイトコードを生成
-    const proxyFactory = await getTransparentUpgradeableProxyFactory(
-        hre,
-        deployer,
-    );
+    const proxyFactory = await getTransparentUpgradeableProxyFactory(hre, deployer);
     const creationCode = ethers.solidityPacked(
         ["bytes", "bytes"],
-        [
-            proxyFactory.bytecode,
-            ethers.AbiCoder.defaultAbiCoder().encode(pramTypes, proxyArgs),
-        ],
+        [proxyFactory.bytecode, ethers.AbiCoder.defaultAbiCoder().encode(pramTypes, proxyArgs)],
     );
 
     const txResponse = await create3.deploy(salt, creationCode, 0);
     const txReceipt = await txResponse.wait();
     if (txReceipt === null) {
-        throw new Error(
-            "[55E78FCF] Failed to deploy TransparentUpgradeableProxy",
-        );
+        throw new Error("[55E78FCF] Failed to deploy TransparentUpgradeableProxy");
     }
 
     // Deployedイベントを取得
     const { blockNumber, hash: txHash } = txReceipt;
     const deployAccountAddress = await deployer.getAddress();
     const filter = create3.filters.Deployed(deployAccountAddress);
-    const events = (
-        await create3.queryFilter(filter, blockNumber, blockNumber)
-    ).filter((e) => e.transactionHash === txHash);
+    const events = (await create3.queryFilter(filter, blockNumber, blockNumber)).filter(
+        (e) => e.transactionHash === txHash,
+    );
 
     // Deployedイベントから、実際にデプロイしたコントラクトアドレスを取得する。
     // コントラクトアドレスはDeployedイベントの第三引数のため、インデックスが3の値(topics[3])を取得する。(インデックス0はイベント識別用ハッシュ値)
     // ここで取得できる値は、256bit長の文字列であることに注意。(例: `0x0000000000000000000000001ba887f85ec02cf3b979b8b31fa06b3fac21ded4`)
     //
     // 256bit長の文字列を160bit長に変換したものをアドレスとして使用
-    const proxyAddress = ethers.getAddress(
-        events[0].topics[3].replace("0x000000000000000000000000", "0x"),
-    );
+    const proxyAddress = ethers.getAddress(events[0].topics[3].replace("0x000000000000000000000000", "0x"));
 
     // ManifestにProxy情報を登録
     // ⇒ OpenZeppelinの`upgrades.updateProxy`を呼び出し可能にするためには、ManifestにProxy情報を登録する必要がある。
@@ -160,19 +142,13 @@ const deployTransparentUpgradeableProxy = async (
 };
 
 const getProxyConstructorParamTypes = async () => {
-    const proxyFactory = await getTransparentUpgradeableProxyFactory(
-        hre,
-        await getDeployer(),
-    );
+    const proxyFactory = await getTransparentUpgradeableProxyFactory(hre, await getDeployer());
     const pramTypes = proxyFactory.interface.fragments
         .filter((f) => f.type === "constructor")[0]
         .inputs.map((i) => i.type);
 
     if (pramTypes === undefined) {
-        console.log(
-            "proxyFactory.interface: ",
-            JSON.stringify(proxyFactory.interface, null, "\t"),
-        );
+        console.log("proxyFactory.interface: ", JSON.stringify(proxyFactory.interface, null, "\t"));
         throw new Error("[D097833F] Failed to get pramTypes");
     }
 

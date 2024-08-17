@@ -1,10 +1,6 @@
 import { ethers, upgrades } from "hardhat";
 import { expect } from "chai";
-import {
-    Create3Mock,
-    MyContractEx1Mock,
-    MyContractMock,
-} from "../typechain-types";
+import { Create3Mock, MyContractEx1Mock, MyContractMock } from "../typechain-types";
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 
 import { create3Upgrades } from "./index";
@@ -37,11 +33,7 @@ const initContracts = async () => {
     // Create3コントラクトを用いてMyContractMockをデプロイ
     const myContractFactory = await ethers.getContractFactory("MyContractMock");
     // MyContractMockのinitialize関数の引数
-    const myContractArgs = [
-        await deployer.getAddress(),
-        INIT_FOO_VAL,
-        INIT_BAR_VAL,
-    ] as unknown[];
+    const myContractArgs = [await deployer.getAddress(), INIT_FOO_VAL, INIT_BAR_VAL] as unknown[];
 
     const create3Address = await create3.getAddress();
 
@@ -62,16 +54,11 @@ const initContracts = async () => {
 const upgradeToMyContractEx1 = async () => {
     const { deployer, create3, myContract } = await initContracts();
 
-    const myContractEx1Factory =
-        await ethers.getContractFactory("MyContractEx1Mock");
+    const myContractEx1Factory = await ethers.getContractFactory("MyContractEx1Mock");
 
-    const myContractEx1 = (await create3Upgrades.upgradeProxy(
-        await myContract.getAddress(),
-        myContractEx1Factory,
-        {
-            call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] },
-        },
-    )) as unknown as MyContractEx1Mock;
+    const myContractEx1 = (await create3Upgrades.upgradeProxy(await myContract.getAddress(), myContractEx1Factory, {
+        call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] },
+    })) as unknown as MyContractEx1Mock;
 
     return { create3, myContractEx1 };
 };
@@ -114,9 +101,7 @@ describe("[E28AD783] Deploy with Create3", () => {
 
     // MyContractEx1にアップグレードしてもコントラクトアドレスは変わらないことを確認
     it("[C09CB79B] Check MyContractEx1 address", async () => {
-        const { create3, myContractEx1 } = await loadFixture(
-            upgradeToMyContractEx1,
-        );
+        const { create3, myContractEx1 } = await loadFixture(upgradeToMyContractEx1);
 
         const expectAddress = await create3.getDeployed(SALT);
         const myContractEx1Address = await myContractEx1.getAddress();
@@ -131,10 +116,7 @@ describe("[E28AD783] Deploy with Create3", () => {
         const [deployer, account1] = await ethers.getSigners();
 
         // account1でMyContractEx1Mockをデプロイ
-        const myContractEx1Factory = await ethers.getContractFactory(
-            "MyContractEx1Mock",
-            account1,
-        );
+        const myContractEx1Factory = await ethers.getContractFactory("MyContractEx1Mock", account1);
 
         let error: Error | null = null;
         try {
@@ -160,25 +142,15 @@ describe("[E28AD783] Deploy with Create3", () => {
         const [deployer, account1] = await ethers.getSigners();
 
         // ProxyAdminの所有者を変更
-        const admin = await getProxyAdmin(
-            await myContract.getAddress(),
-            deployer,
-        );
+        const admin = await getProxyAdmin(await myContract.getAddress(), deployer);
         await admin.transferOwnership(await account1.getAddress());
 
         // account1でMyContractEx1Mockをデプロイ
-        const myContractEx1Factory = await ethers.getContractFactory(
-            "MyContractEx1Mock",
-            account1,
-        );
+        const myContractEx1Factory = await ethers.getContractFactory("MyContractEx1Mock", account1);
 
-        const myContractEx1 = (await create3Upgrades.upgradeProxy(
-            await myContract.getAddress(),
-            myContractEx1Factory,
-            {
-                call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] },
-            },
-        )) as unknown as MyContractEx1Mock;
+        const myContractEx1 = (await create3Upgrades.upgradeProxy(await myContract.getAddress(), myContractEx1Factory, {
+            call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] },
+        })) as unknown as MyContractEx1Mock;
 
         const fooVal = await myContractEx1.foo();
         expect(INIT_FOO_VAL).equal(fooVal);

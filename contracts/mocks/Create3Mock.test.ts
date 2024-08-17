@@ -6,8 +6,8 @@ import { Privatenet } from "../../test/lib/Privatenet";
 import { md5 } from "../../test/lib/md5";
 
 describe("[2E4BF335] Deploy with Create3", () => {
-    const deployFixture = async() => {
-        await Privatenet.reset();   // ネットワークのリセット(nonceを0に戻すため)
+    const deployFixture = async () => {
+        await Privatenet.reset(); // ネットワークのリセット(nonceを0に戻すため)
 
         const factory = await ethers.getContractFactory("Create3Mock");
         const create3 = await upgrades.deployProxy(factory, []);
@@ -19,13 +19,13 @@ describe("[2E4BF335] Deploy with Create3", () => {
      * Create3コントラクトのデプロイに関するテスト
      * デプロイされるCreate3コントラクトのアドレスが固定の値であることを確認します。
      */
-    it("[5490E73C] deploy", async() => {
+    it("[5490E73C] deploy", async () => {
         const { create3 } = await loadFixture(deployFixture);
 
         const { deployer } = await Privatenet.signers();
         const provider = await Privatenet.provider();
         const deployerAddress = await deployer.getAddress();
-        
+
         // 実装コントラクトとProxyコントラクトの2つがデプロイされているため、nonceは2
         // ※ProxyAdminはProxyコントラクトデプロイ時と同一トランザクションで行われるため、nonceのカウントには含まれない
         const nonce = await provider.getTransactionCount(deployerAddress);
@@ -33,7 +33,10 @@ describe("[2E4BF335] Deploy with Create3", () => {
 
         // create3のアドレスはnonceが1の時にデプロイされるProxyコントラクトのアドレス
         // (nonceが0のタイミングでデプロイされるのは実装コントラクト)
-        const expectedAddress = ethers.getCreateAddress({ from: deployerAddress, nonce: 1 });
+        const expectedAddress = ethers.getCreateAddress({
+            from: deployerAddress,
+            nonce: 1,
+        });
         const create3Address = await create3.getAddress();
 
         expect(create3Address).to.be.eq(expectedAddress);
@@ -45,15 +48,21 @@ describe("[2E4BF335] Deploy with Create3", () => {
      * 2024/8/16時点でのデプロイされたコントラクトのバイトコードのハッシュ値等を確認します。
      * ライブラリのバージョンアップ等でバイトコードが変更された時にはこのテストが失敗するので、影響がないかどうかを確認してください。
      */
-    it("[CC9F505F] deployed code", async() => {
+    it("[CC9F505F] deployed code", async () => {
         const { create3 } = await loadFixture(deployFixture);
 
         const { deployer } = await Privatenet.signers();
         const provider = await Privatenet.provider();
         const deployerAddress = await deployer.getAddress();
 
-        const implAddress = ethers.getCreateAddress({ from: deployerAddress, nonce: 0 });   // 実装コントラクト(Create3Mock)のアドレス
-        const proxyAddress = ethers.getCreateAddress({ from: deployerAddress, nonce: 1 });  // Proxyコントラクトのアドレス
+        const implAddress = ethers.getCreateAddress({
+            from: deployerAddress,
+            nonce: 0,
+        }); // 実装コントラクト(Create3Mock)のアドレス
+        const proxyAddress = ethers.getCreateAddress({
+            from: deployerAddress,
+            nonce: 1,
+        }); // Proxyコントラクトのアドレス
 
         // Create3Mockのバイトコードチェックのため、Create3コントラクト自体はテストしていないことに注意。
         const impleCode = await provider.getCode(implAddress);
@@ -65,5 +74,4 @@ describe("[2E4BF335] Deploy with Create3", () => {
         expect(proxyCode.length).to.be.equal(2320);
         expect(md5(proxyCode)).to.be.equal("639b4e3e55aec99ba6dd1df01f8031d7");
     });
-
 });

@@ -44,11 +44,7 @@ const verifySaltFormat = (salt: string) => {
  * @param opt
  * @returns
  */
-const verifyInitializeArgs = (
-    logicFactory: ContractFactory,
-    args?: unknown[],
-    opt?: Options,
-) => {
+const verifyInitializeArgs = (logicFactory: ContractFactory, args?: unknown[], opt?: Options) => {
     let initializer = opt?.initializer;
 
     // initializerがfalseの場合はinitialize関数を呼び出さない
@@ -70,9 +66,7 @@ const verifyInitializeArgs = (
     const fragment = logicFactory.interface.getFunction(initializer);
     if (!fragment) {
         // initializerとなる関数が存在しない場合はエラー
-        throw new Error(
-            `[43BBAF75] Invalid initializer. ${initializer} is not found in the contract.`,
-        );
+        throw new Error(`[43BBAF75] Invalid initializer. ${initializer} is not found in the contract.`);
     }
 
     if (args && fragment.inputs.length !== args.length) {
@@ -91,37 +85,25 @@ const verifyTransparentUpgradeableProxyFactory = (factory: ContractFactory) => {
     // バイナリが変更されていても上記が一致している場合は問題ないものとして扱う。
 
     // コンストラクタの情報を取得
-    const constructorFragments = factory.interface.fragments.filter(
-        (f) => f.type === "constructor",
-    )[0];
+    const constructorFragments = factory.interface.fragments.filter((f) => f.type === "constructor")[0];
 
     // コンストラクタの引数の名前一覧を取得
     const constructorArgNames = constructorFragments.inputs.map((i) => i.name);
     const expectConstructorArgNames = ["_logic", "initialOwner", "_data"];
 
-    if (
-        JSON.stringify(constructorArgNames) !==
-        JSON.stringify(expectConstructorArgNames)
-    ) {
+    if (JSON.stringify(constructorArgNames) !== JSON.stringify(expectConstructorArgNames)) {
         // コンストラクタの引数の名前が変更されている場合はエラー
         console.error(JSON.stringify(constructorArgNames));
-        throw new Error(
-            "[D997A4A2] Expected constructor arguments are not found.",
-        );
+        throw new Error("[D997A4A2] Expected constructor arguments are not found.");
     }
 
     // コンストラクタの引数の型一覧を取得
     const constructorArgTypes = constructorFragments.inputs.map((i) => i.type);
     const expectConstructorArgTypes = ["address", "address", "bytes"];
 
-    if (
-        JSON.stringify(constructorArgTypes) !==
-        JSON.stringify(expectConstructorArgTypes)
-    ) {
+    if (JSON.stringify(constructorArgTypes) !== JSON.stringify(expectConstructorArgTypes)) {
         // コンストラクタの引数の型が変更されている場合はエラー
         console.error(JSON.stringify(constructorArgTypes));
-        throw new Error(
-            "[402D35AF] Expected constructor argument types are not found.",
-        );
+        throw new Error("[402D35AF] Expected constructor argument types are not found.");
     }
 };

@@ -2,9 +2,8 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { Privatenet } from "./Privatenet";
 
-describe("[73D05126] Privatenet", ()=>{
-
-    it("[0C8461CA] isHardhatNode", async()=>{
+describe("[73D05126] Privatenet", () => {
+    it("[0C8461CA] isHardhatNode", async () => {
         // テスト時は必ずHardhatノードに接続している
         expect(Privatenet.isHardhatNode()).to.be.true;
     });
@@ -12,7 +11,7 @@ describe("[73D05126] Privatenet", ()=>{
     /**
      * Hardhatノードの状態をリセット処理のテスト
      */
-    it("[0C8461CA] reset", async()=>{
+    it("[0C8461CA] reset", async () => {
         const sut = Privatenet;
 
         const { deployer, alice } = await Privatenet.signers();
@@ -28,7 +27,7 @@ describe("[73D05126] Privatenet", ()=>{
         // この時点でブロック番号は0よりも大きい
         let blockNumber = await provider.getBlockNumber();
         expect(blockNumber).to.be.greaterThan(0);
-        
+
         // リセット
         await sut.reset();
 

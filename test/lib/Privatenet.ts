@@ -2,9 +2,7 @@ import assert from "node:assert/strict";
 import { ethers, network } from "hardhat";
 import { Signer, JsonRpcProvider } from "ethers";
 
-
 export class Privatenet {
-
     /**
      * テスト用アカウントを取得します。
      */
@@ -15,10 +13,10 @@ export class Privatenet {
         // 先頭から、コントラクトをデプロイするアカウント、alice, bob, という順番で割り当てる
         // テスト用アカウントが不足した場合はこの配列の後ろに追加すること。
         // ※ alice、bobという名称を用いているが、(本テストにおいて)これらのアカウント利用は暗号通信に制限されるわけではない。
-        const [deployer, alice , bob, ] = signers;
+        const [deployer, alice, bob] = signers;
         // 一番最後をzoeとして割り当てる
         const zoe = signers[signers.length - 1];
-        
+
         return { deployer, alice, bob, zoe };
     }
 
@@ -27,14 +25,14 @@ export class Privatenet {
      */
     public static async provider() {
         const signers: Signer[] = await ethers.getSigners();
-        return signers[0].provider!
+        return signers[0].provider!;
     }
 
     /**
      * 接続中のチェーンがHardhatのノードかどうかを返します。
      */
     public static isHardhatNode(): boolean {
-        return network.name === 'hardhat';
+        return network.name === "hardhat";
     }
 
     /**
