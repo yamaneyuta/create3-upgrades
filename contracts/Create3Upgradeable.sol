@@ -11,17 +11,13 @@ abstract contract Create3Upgradeable is Initializable, ContextUpgradeable, ICrea
     // solhint-disable-next-line func-name-mixedcase, no-empty-blocks
     function __Create3_init() internal onlyInitializing { }
 
-    function deploy(bytes32 salt, bytes memory creationCode, uint256 value) external virtual {
+    function _deploy(bytes32 salt, bytes memory creationCode, uint256 value) internal virtual {
         address deployed = CREATE3.deploy(salt, creationCode, value);
         emit Deployed( _msgSender(), salt, deployed);
     }
 
-    function getDeployed(bytes32 salt) external virtual view returns (address deployed) {
+    function _getDeployed(bytes32 salt) internal virtual view returns (address deployed) {
         deployed = CREATE3.getDeployed(salt);
-    }
-
-    function _getDeployed(bytes32 salt, address deployer) internal virtual pure returns (address deployed) {
-        deployed = CREATE3.getDeployed(salt, deployer);
     }
 }
 

@@ -20,13 +20,14 @@ contract Create3Mock is Initializable, OwnableUpgradeable, Create3Upgradeable {
     }
 
 
-    // function deploy(bytes32 salt, bytes memory creationCode, uint256 value) external {
-    //     _deploy(salt, creationCode, value);
-    // }
+    function deploy(bytes32 salt, bytes memory creationCode, uint256 value) external {
+        _deploy(salt, creationCode, value);
+    }
 
-    // function getDeployed(bytes32 salt) external view returns (address deployed) {
-    //     deployed = _getDeployed(salt);
-    // }
+    function getDeployed(bytes32 salt) external view returns (address deployed) {
+        deployed = _getDeployed(salt);
+    }
+
     // function getDeployed(bytes32 salt, address deployer) external pure returns (address deployed) {
     //     deployed = _getDeployed(salt, deployer);
     // }
