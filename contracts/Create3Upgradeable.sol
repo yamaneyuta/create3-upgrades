@@ -13,7 +13,7 @@ abstract contract Create3Upgradeable is Initializable, ContextUpgradeable, ICrea
 
     function _deploy(bytes32 salt, bytes memory creationCode, uint256 value) internal virtual {
         address deployed = CREATE3.deploy(salt, creationCode, value);
-        emit Deployed( _msgSender(), salt, deployed);
+        emit Deployed(_msgSender(), salt, deployed);
     }
 
     function _getDeployed(bytes32 salt) internal virtual view returns (address deployed) {
