@@ -1,4 +1,4 @@
-import hre, { upgrades } from "hardhat";
+import hre from "hardhat";
 import { deployProxyImpl } from "@openzeppelin/hardhat-upgrades/dist/utils";
 import { ContractFactory } from "ethers";
 
