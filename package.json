@@ -21,7 +21,6 @@
   ],
   "scripts": {
     "build": "npm run build:sol && npm run build:js",
-    "prebuild:js": "npm run clean:js",
     "build:js": "tsc -p tsconfig.build.json",
     "build:sol": "hardhat compile",
     "clean": "rm -rf artifacts/* cache/* coverage/* dist/* typechain-types/*",
