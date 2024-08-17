@@ -20,7 +20,7 @@ abstract contract Create3Upgradeable is Initializable, ContextUpgradeable, ICrea
      *      例: salt = keccak256(abi.encodePacked(salt, msg.sender));
      */
     function _deploy(bytes32 salt, bytes memory creationCode, uint256 value) internal virtual {
-        address deployed = CREATE3.deploy(salt, creationCode, value);
+        address deployed = CREATE3.deployDeterministic(value, creationCode, salt);
         emit Deployed(_msgSender(), salt, deployed);
     }
 
@@ -28,7 +28,7 @@ abstract contract Create3Upgradeable is Initializable, ContextUpgradeable, ICrea
      * このコントラクト経由でデプロイした時のコントラクトアドレスを取得します。
      */
     function _getDeployed(bytes32 salt) internal virtual view returns (address deployed) {
-        deployed = CREATE3.getDeployed(salt);
+        deployed = CREATE3.predictDeterministicAddress(salt);
     }
 }
 
