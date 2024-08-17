@@ -38,3 +38,4 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: REPORT_GAS=true npm run test
+      - run: npm run clean
