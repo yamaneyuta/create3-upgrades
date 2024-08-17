@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import { UUPSUpgradeable } from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import { OwnableUpgradeable } from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import { Create3Upgradeable } from "../Create3Upgradeable.sol";
 
-contract Create3Mock is Initializable, OwnableUpgradeable, Create3Upgradeable {
+
+/**
+ * Create3Upgradeableを継承したUUPS Proxyテスト用のコントラクト
+ */
+contract Create3UUPSMock is Create3Upgradeable, UUPSUpgradeable, OwnableUpgradeable {
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -15,9 +19,8 @@ contract Create3Mock is Initializable, OwnableUpgradeable, Create3Upgradeable {
         _disableInitializers();
     }
     
-    function initialize() public initializer {
-        __Ownable_init(_msgSender());
-    }
+    // solhint-disable-next-line no-empty-blocks
+    function initialize() public initializer { }
 
 
     function deploy(bytes32 salt, bytes memory creationCode, uint256 value) external {
@@ -28,8 +31,7 @@ contract Create3Mock is Initializable, OwnableUpgradeable, Create3Upgradeable {
         deployed = _getDeployed(salt);
     }
 
-    // function getDeployed(bytes32 salt, address deployer) external pure returns (address deployed) {
-    //     deployed = _getDeployed(salt, deployer);
-    // }
+    // solhint-disable-next-line no-empty-blocks
+    function _authorizeUpgrade(address) internal virtual override onlyOwner { }
 }
 
