@@ -133,7 +133,7 @@ const deployTransparentUpgradeableProxy = async (
     // Deployedイベントを取得
     const { blockNumber, hash: txHash } = txReceipt;
     const deployAccountAddress = await deployer.getAddress();
-    const filter = create3.filters.Deployed(deployAccountAddress, salt);
+    const filter = create3.filters.Deployed(deployAccountAddress);
     const events = (
         await create3.queryFilter(filter, blockNumber, blockNumber)
     ).filter((e) => e.transactionHash === txHash);
