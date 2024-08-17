@@ -120,13 +120,9 @@ describe("[E28AD783] Deploy with Create3", () => {
 
         let error: unknown | null = null;
         try {
-            await create3Upgrades.upgradeProxy(
-                await myContract.getAddress(),
-                myContractEx1Factory,
-                {
-                    call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] },
-                },
-            );
+            await create3Upgrades.upgradeProxy(await myContract.getAddress(), myContractEx1Factory, {
+                call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] },
+            });
         } catch (err) {
             error = err;
         }
