@@ -10,7 +10,7 @@ import { Create3Upgradeable } from "../../typechain-types/contracts/Create3Upgra
 import { Create3Upgradeable__factory } from "../../typechain-types/factories/contracts/Create3Upgradeable__factory";
 import { Options } from "../types/Options";
 import { preDeployProxy } from "./preDeployProxy";
-import { md5 } from "../../dist/test/lib/md5";
+import { md5 } from "../lib/md5";
 import { ProxyKind } from "../lib/ProxyKind";
 
 /**
