@@ -1,7 +1,9 @@
 FROM ubuntu:22.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt update && \
-    apt install git curl -y && \
+    apt install git curl sudo -y && \
     \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install nodejs -y && \
@@ -13,3 +15,9 @@ RUN apt update && \
     rm -rf lazygit* && \
     \
     apt clean && rm -rf /var/lib/apt/lists/*
+
+# ubuntuユーザーが存在しない場合は追加
+RUN id ubuntu > /dev/null 2>&1 || useradd -m -s /bin/bash ubuntu
+
+# ubuntuはパスワード無しでsudoが実行できるようにする
+RUN echo "ubuntu ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/ubuntu
