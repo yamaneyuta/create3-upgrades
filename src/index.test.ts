@@ -57,7 +57,7 @@ const upgradeToMyContractEx1 = async () => {
     const myContractEx1Factory = await ethers.getContractFactory("MyContractEx1Mock");
 
     const myContractEx1 = (await create3Upgrades.upgradeProxy(await myContract.getAddress(), myContractEx1Factory, {
-        call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] },
+        call: { fn: "upgrade(uint256)", args: [INIT_BAZ_VAL] },
     })) as unknown as MyContractEx1Mock;
 
     return { create3, myContractEx1 };
@@ -145,7 +145,7 @@ describe("[E28AD783] Deploy with Create3", () => {
         const myContractEx1Factory = await ethers.getContractFactory("MyContractEx1Mock", account1);
 
         const myContractEx1 = (await create3Upgrades.upgradeProxy(await myContract.getAddress(), myContractEx1Factory, {
-            call: { fn: "initialize(uint256)", args: [INIT_BAZ_VAL] },
+            call: { fn: "upgrade(uint256)", args: [INIT_BAZ_VAL] },
         })) as unknown as MyContractEx1Mock;
 
         const fooVal = await myContractEx1.foo();
