@@ -19,8 +19,9 @@ contract Create3UUPSMock is Create3Upgradeable, UUPSUpgradeable, OwnableUpgradea
         _disableInitializers();
     }
     
-    // solhint-disable-next-line no-empty-blocks
-    function initialize() public initializer { }
+    function initialize() public initializer {
+        __Ownable_init(msg.sender);
+    }
 
 
     function deploy(bytes32 salt, bytes memory creationCode, uint256 value) external {
