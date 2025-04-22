@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.24;
 
 import { UUPSUpgradeable } from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import { OwnableUpgradeable } from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
@@ -19,8 +19,9 @@ contract Create3UUPSMock is Create3Upgradeable, UUPSUpgradeable, OwnableUpgradea
         _disableInitializers();
     }
     
-    // solhint-disable-next-line no-empty-blocks
-    function initialize() public initializer { }
+    function initialize() public initializer {
+        __Ownable_init(msg.sender);
+    }
 
 
     function deploy(bytes32 salt, bytes memory creationCode, uint256 value) external {

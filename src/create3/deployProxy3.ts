@@ -115,11 +115,15 @@ const deployTransparentUpgradeableProxy = async (
         ["bytes", "bytes"],
         [proxyFactory.bytecode, ethers.AbiCoder.defaultAbiCoder().encode(pramTypes, proxyArgs)],
     );
-    if (md5(proxyFactory.bytecode) !== "d26eb8ac78ecbb5e001460a6574b7d3a") {
+    const expectedProxyFactoryBytecodeHashs = ["d26eb8ac78ecbb5e001460a6574b7d3a", "aaeb4aaeab012a108f27bbe11a99c706"];
+    if (!expectedProxyFactoryBytecodeHashs.includes(md5(proxyFactory.bytecode))) {
         // ここを通る時は`TransparentUpgradeableProxy`のバイトコードが変更されているため、openzeppelinのコードを確認してください。
         // 今後の運用に影響する可能性があります。
         console.error("proxyFactory.bytecode hash: ", md5(proxyFactory.bytecode));
-        throw new Error("[79872CEC] Mismatch bytecode");
+        throw new Error(
+            `[79872CEC] Mismatch bytecode. expected: '${expectedProxyFactoryBytecodeHashs}', actual: ` +
+                md5(proxyFactory.bytecode),
+        );
     }
 
     const txResponse = await create3.deploy(salt, creationCode, 0);
