@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.24;
 
 interface ICreate3Upgradeable {
     event Deployed(address indexed account, bytes32 indexed salt, address indexed deployed);
